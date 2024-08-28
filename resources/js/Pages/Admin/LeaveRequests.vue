@@ -3,7 +3,7 @@
     <AdminLayout class="pt-20">
         <div class="p-6 bg-white rounded-lg shadow-md">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-semibold">Leave Requests</h1>
+                <h1 class="text-2xl font-semibold">Request Izin/Sakit</h1>
                 <label class="block">
                     <span class="text-gray-700">Select Date:</span>
                     <input type="date" v-model="selectedDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
@@ -78,3 +78,5 @@ const rejectRequest = (id) => {
     Inertia.post(`/admin/leave-requests/${id}/reject`);
 };
 </script>
+
+

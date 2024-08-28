@@ -88,7 +88,8 @@ class CheckRole
             'leave-requests.index',
             'leave-requests.create',
             'leave-requests.store',
-            'requests.store',
+            'leave-requests.destroy',
+            'user.logout',
             // Tambahkan rute-rute non-admin lainnya di sini
         ];
 

@@ -41,5 +41,17 @@ class LeaveRequestController extends Controller
     
         return redirect()->route('leave-requests.index')->with('status', 'Leave request submitted.');
     }
-    
+    public function destroy($id)
+    {
+        $leaveRequest = LeaveRequest::findOrFail($id);
+
+        // Pastikan hanya pengguna yang membuat permintaan bisa menghapusnya
+        if ($leaveRequest->user_id !== Auth::id()) {
+            return redirect()->route('leave-requests.index')->with('error', 'Anda tidak memiliki izin untuk menghapus permintaan ini.');
+        }
+
+        $leaveRequest->delete();
+
+        return redirect()->route('leave-requests.index')->with('success', 'Permintaan berhasil dihapus.');
+    }
 }

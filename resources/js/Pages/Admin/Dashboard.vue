@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="user in paginatedUsers" :key="user.id" class="hover:bg-gray-100">
+                            <tr v-for="user in paginatedUsers" :key="user.encrypted_id" class="hover:bg-gray-100">
                                 <td class="py-3 px-6">{{ user.name }}</td>
                                 <td class="py-3 px-6">{{ user.email }}</td>
                                 <td class="py-3 px-6">{{ user.nis }}</td>
@@ -40,8 +40,12 @@
                                 <td class="py-3 px-6">{{ user.kontak }}</td>
                                 <td class="py-3 px-6">{{ user.role }}</td>
                                 <td class="py-3 px-6 text-center">
-                                    <button @click="editUser(user.id)" class="bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">Edit</button>
-                                    <button @click="deleteUser(user.id)" class="bg-red-500 text-white px-4 py-2 rounded-lg ml-2 hover:bg-red-600">Delete</button>
+                                    <button @click="editUser(user.encrypted_id)" class="mb-2 ml-2 bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button @click="deleteUser(user.encrypted_id)" class="bg-red-500 text-white px-4 py-2 rounded-lg ml-2 hover:bg-red-600">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -84,6 +88,8 @@
         </template>
     </AdminLayout>
 </template>
+
+
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { ref, computed } from 'vue';
@@ -143,17 +149,16 @@ const filteredUsers = computed(() => {
             user.email.toLowerCase().includes(query) ||
             user.role.toLowerCase().includes(query)
         )
-        .sort((a, b) => a.name.localeCompare(b.name));  // Sorting the filtered users by name
+        .sort((a, b) => a.name.localeCompare(b.name));
 });
 
-
-const editUser = (id) => {
-    router.get(`/admin/users/${id}/edit`);
+const editUser = (encryptedId) => {
+    router.get(`/admin/users/${encryptedId}/edit`);
 }
 
-const deleteUser = (id) => {
+const deleteUser = (encryptedId) => {
     if (confirm('Are you sure you want to delete this user?')) {
-        router.delete('/admin/users/' + id);
+        router.delete(route('admin.user.destroy', { user: encryptedId }));
     }
 }
 </script>

@@ -7,12 +7,16 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Crypt;
 
 class DashboardController extends Controller
 {
     public function index(): Response
     {
-        $users = User::all();
+        $users = User::all()->map(function ($user) {
+            $user->encrypted_id = Crypt::encrypt($user->id);
+            return $user;
+        });
 
         $userStats = $users->map(function ($user) {
             return [

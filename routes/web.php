@@ -32,10 +32,10 @@ Route::get('/', function () {
 Route::middleware(['auth', 'checkrole'])->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-            Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
-            Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
+            Route::get('/users/{encryptedId}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+            Route::put('/users/{encryptedId}', [UserController::class, 'update'])->name('admin.users.update');
             Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.user.destroy');
-            Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+            // Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
             Route::get('/schedules/create', [ScheduleController::class, 'create'])->name('schedules.create');
             Route::post('/schedules', [ScheduleController::class, 'store'])->name('schedules.store');
             Route::get('/attendances', [AdminAttendanceController::class, 'index'])->name('admin.attendances.index');
@@ -56,7 +56,8 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
             Route::get('/leave-requests', [LeaveRequestController::class, 'index'])->name('leave-requests.index');
             Route::get('/leave-requests/create', [LeaveRequestController::class, 'create'])->name('leave-requests.create');
             Route::post('/leave-requests', [LeaveRequestController::class, 'store'])->name('leave-requests.store');
-            Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('user.logout');
+            Route::delete('leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave-requests.destroy'); 
+            Route::post('/logout', [LeaveRequestController::class, 'destroy'])->name('user.logout');
         });
 });
     

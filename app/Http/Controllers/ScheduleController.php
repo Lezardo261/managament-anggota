@@ -44,7 +44,7 @@ class ScheduleController extends Controller
         ]);
 
         Schedule::create($validated);
-        return redirect()->route('schedules.index');
+        return redirect()->route('admin.dashboard');
     }
 
 }

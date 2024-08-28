@@ -31,14 +31,15 @@
                 <th class="py-2 px-4 border-b">Foto</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center text-xs md:text-sm ">
               <tr v-for="attendance in filteredAttendances" :key="attendance.id">
                 <td class="py-2 px-4 border-b">{{ attendance.user_name }}</td>
                 <td class="py-2 px-4 border-b">{{ attendance.schedule_title }}</td>
                 <td class="py-2 px-4 border-b">{{ attendance.created_at }}</td>
-                <td class="py-2 px-4 border-b">
-                  <img :src="`/storage/${attendance.photo_path}`" alt="Photo" class="h-16 w-16 object-cover">
+                <td class="py-2 px-4 border-b text-center">
+                  <img :src="`/storage/${attendance.photo_path}`" alt="Photo" class="h-16 w-16 object-cover mx-auto">
                 </td>
+
               </tr>
             </tbody>
           </table>

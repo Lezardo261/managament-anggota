@@ -4,7 +4,7 @@
         <aside :class="{'-translate-x-full': !isSidebarOpen, 'translate-x-0': isSidebarOpen}" class="bg-gray-900 text-white w-64 space-y-6 py-7 px-4 absolute inset-y-0 left-0 transform lg:transform-none lg:relative transition duration-300 ease-in-out z-50 shadow-lg">
             <!-- Enhanced Title -->
             <div class="text-center mb-10">
-                <div class="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
+                <div class="text-4xl font-extrabold bg-clip-text ">
                     Dashboard
                 </div>
                 <div class="text-sm font-medium text-gray-400 mt-1">

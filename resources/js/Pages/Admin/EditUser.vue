@@ -18,17 +18,19 @@ const form = useForm({
 const errors = ref({});
 
 const submit = () => {
-    form.put(route('admin.users.update', props.user.id), {
+    // Pastikan 'props.user.encrypted_id' benar-benar memiliki nilai yang valid
+    form.put(route('admin.users.update', props.user.encrypted_id), {
         onError: (errors) => {
-            console.log(errors);  // Log errors to see what is causing the issue
+            console.log(errors);
             errors.value = errors;
         },
         onSuccess: (response) => {
-            console.log(response);  // Log response to verify successful update
+            console.log(response);
             alert('User updated successfully');
         },
     });
 };
+
 
 const goBack = () => {
   router.get(route('admin.dashboard'));

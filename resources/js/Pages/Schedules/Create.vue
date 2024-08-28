@@ -81,3 +81,8 @@ const submit = () => {
   });
 };
 </script>
+<style scoped>
+input[type="date"], input[type="time"], input[type="text"], input[type="month"] {
+  background-color: rgb(238, 242, 247);
+}
+</style>
