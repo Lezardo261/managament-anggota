@@ -31,7 +31,10 @@ class ScheduleController extends Controller
 
     public function create()
     {
-        return Inertia::render('Schedules/Create');
+        $scheduleCount = Schedule::count();
+        return Inertia::render('Schedules/Create', [
+            'scheduleCount' => $scheduleCount,
+        ]);
     }
 
     public function store(Request $request)

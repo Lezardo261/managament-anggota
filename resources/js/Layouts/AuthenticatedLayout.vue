@@ -1,11 +1,11 @@
 <template>
     <div class="min-h-screen flex bg-gray-100">
         <!-- Sidebar -->
-        <aside :class="{'-translate-x-full': !isSidebarOpen, 'translate-x-0': isSidebarOpen}" class="bg-gray-900 text-white w-64 space-y-6 py-7 px-4 absolute inset-y-0 left-0 transform lg:transform-none lg:relative transition duration-300 ease-in-out z-50 shadow-lg">
+        <aside :class="{'-translate-x-full': !isSidebarOpen, 'translate-x-0': isSidebarOpen}" class="fixed bg-gray-900 text-white w-64 space-y-6 py-7 px-4 inset-y-0 left-0 transform lg:transform-none transition duration-300 ease-in-out z-50 shadow-lg">
             <!-- Enhanced Title -->
             <div class="text-center mb-10">
-                <div class="text-4xl font-extrabold bg-clip-text ">
-                    Dashboard
+                <div class="text-2xl font-extrabold bg-clip-text ">
+                    <i class="fas fa-code"></i> Dashboard
                 </div>
                 <div class="text-sm font-medium text-gray-400 mt-1">
                     Welcome back, {{ $page.props.auth.user.name }}!
@@ -68,7 +68,7 @@
         </div>
 
         <!-- Page Content -->
-        <div class="flex-1 pt-16 lg:pt-8 px-4 lg:pl-6">
+        <div class="flex-1 pt-16 lg:pt-8 px-4 lg:ml-64 lg:pl-6">
             <div class="container mx-auto py-4">
                 <slot></slot>
             </div>
@@ -95,6 +95,22 @@ function logout() {
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Mencegah tampilan bergeser ke samping */
+}
+
+html, body {
+    max-width: 100vw; /* Membatasi lebar maksimal pada ukuran layar */
+}
+
+.container {
+    max-width: 100%; /* Membatasi lebar container */
+    padding: 0 1rem; /* Menambahkan padding pada container untuk mobile */
+}
+
+.flex-1 {
+    padding-left: 1rem;
+    max-width: 100%; /* Membatasi lebar konten di dalam flex-1 */
+    overflow-x: hidden; /* Mencegah overflow horizontal */
 }
 
 @media (min-width: 1024px) {
@@ -105,4 +121,5 @@ body {
         padding-left: 1rem;
     }
 }
+
 </style>

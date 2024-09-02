@@ -6,7 +6,9 @@ use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
+use App\Exports\UserStatsExport;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Crypt;
 
 class DashboardController extends Controller
@@ -32,4 +34,9 @@ class DashboardController extends Controller
             'userStats' => $userStats,
         ]);
     }
+    public function exportUserStats()
+    {
+        return Excel::download(new UserStatsExport, 'user_stats.xlsx');
+    }
+    
 }

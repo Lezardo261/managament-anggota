@@ -32,8 +32,6 @@ class AttendController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-    
-        return redirect()->route('dashboard');
     }
     
     

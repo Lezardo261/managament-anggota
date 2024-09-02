@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'checkrole' => \App\Http\Middleware\CheckRole::class,
+            'redirect_if_authenticated' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);
         
 

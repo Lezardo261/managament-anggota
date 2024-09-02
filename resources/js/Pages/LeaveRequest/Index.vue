@@ -1,4 +1,5 @@
 <template>
+  <Head title="Daftar Izin/Sakit" />
   <AuthenticatedLayout class="overflow-x-hidden">
     <template #default>
       <div class="min-h-screen bg-gray-100 p-4 md:p-8">
@@ -58,7 +59,7 @@
 </template>
 
 <script setup>
-import { Link, router } from '@inertiajs/vue3';
+import { Link, router, Head } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const props = defineProps({

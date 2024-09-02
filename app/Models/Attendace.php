@@ -9,6 +9,7 @@ class Attendace extends Model
 {
     use HasFactory;
     protected $table = 'attendances';
+    
     protected $guarded = [];
     
     public function user()

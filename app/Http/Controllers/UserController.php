@@ -26,13 +26,8 @@ class UserController extends Controller
     
     public function update(Request $request, $encryptedId)
     {
-        try {
-            $id = Crypt::decrypt($encryptedId);
-        } catch (\Exception $e) {
-            Log::error('Decryption failed: ' . $e->getMessage());
-            return redirect()->route('admin.dashboard')->withErrors(['error' => 'Invalid user ID']);
-        }
-    
+        $id = Crypt::decrypt($encryptedId);
+
         $user = User::findOrFail($id);
     
         $user->update($request->only(['name', 'email', 'role']));
@@ -40,7 +35,20 @@ class UserController extends Controller
         return redirect()->route('admin.users.edit', Crypt::encrypt($user->id))
             ->with('success', 'User updated successfully');
     }
-    
+
+    public function updateRole(Request $request, $encryptedId)
+    {
+        $id = Crypt::decrypt($encryptedId);
+        $user = User::findOrFail($id);
+        
+        $request->validate([
+            'role' => 'required|in:admin,user',
+        ]);
+        
+        $user->role = $request->input('role');
+        $user->save();
+    }
+
     
     
     

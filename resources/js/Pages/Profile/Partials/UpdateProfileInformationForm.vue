@@ -78,11 +78,12 @@ console.log('Form data before submit:', form);
                     id="nis"
                     type="text"
                     class="mt-1 block w-full"
-                    v-model="form.nis"
+                    v-model.number="form.nis" 
                     required
                     autofocus
                     autocomplete="nis"
                 />
+
 
                 <InputError class="mt-2" :message="form.errors.name" />
             </div>

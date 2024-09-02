@@ -15,23 +15,9 @@ const form = useForm({
     role: props.user.role,
 });
 
-const errors = ref({});
-
-const submit = () => {
-    // Pastikan 'props.user.encrypted_id' benar-benar memiliki nilai yang valid
-    form.put(route('admin.users.update', props.user.encrypted_id), {
-        onError: (errors) => {
-            console.log(errors);
-            errors.value = errors;
-        },
-        onSuccess: (response) => {
-            console.log(response);
-            alert('User updated successfully');
-        },
-    });
-};
-
-
+function submit() {
+    form.put(route('admin.users.update', props.user.encrypted_id))
+}
 const goBack = () => {
   router.get(route('admin.dashboard'));
 };
@@ -47,12 +33,10 @@ const goBack = () => {
             <div class="mb-4">
               <label for="name" class="block text-gray-700">Name</label>
               <input v-model="form.name" type="text" id="name" class="border rounded-md p-2" />
-              <span v-if="errors.name" class="text-red-500">{{ errors.name }}</span>
             </div>
             <div class="mb-4">
               <label for="email" class="block text-gray-700">Email</label>
               <input v-model="form.email" type="email" id="email" class="border rounded-md p-2" />
-              <span v-if="errors.email" class="text-red-500">{{ errors.email }}</span>
             </div>
             <div class="mb-4">
               <label for="role" class="block text-gray-700">Role</label>
@@ -60,7 +44,6 @@ const goBack = () => {
                 <option value="admin">Admin</option>
                 <option value="user">User</option>
               </select>
-              <span v-if="errors.role" class="text-red-500">{{ errors.role }}</span>
             </div>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
             <button type="button" @click="goBack" class="bg-gray-500 text-white px-4 py-2 rounded ml-4">Back</button>

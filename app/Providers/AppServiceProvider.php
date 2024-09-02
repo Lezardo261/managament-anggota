@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
                         return Redirect::route('dashboard');
                     }
                 }
-                return view('auth.login'); // Tampilkan halaman login jika belum login
+                return view('login'); // Tampilkan halaman login jika belum login
             });
         });
     }

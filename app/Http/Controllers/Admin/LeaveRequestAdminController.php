@@ -23,8 +23,6 @@ class LeaveRequestAdminController extends Controller
         $leaveRequest = LeaveRequest::findOrFail($id);
         $leaveRequest->status = 'Approved';
         $leaveRequest->save();
-
-        return redirect()->route('admin.leave-requests.index')->with('success', 'Request approved.');
     }
 
     public function reject($id)
@@ -32,7 +30,5 @@ class LeaveRequestAdminController extends Controller
         $leaveRequest = LeaveRequest::findOrFail($id);
         $leaveRequest->status = 'Rejected';
         $leaveRequest->save();
-
-        return redirect()->route('admin.leave-requests.index')->with('success', 'Request rejected.');
     }
 }

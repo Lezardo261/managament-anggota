@@ -69,7 +69,14 @@ class CheckRole
             'admin.leave-requests.index',
             'admin.leave-requests.approve',
             'admin.leave-requests.reject',
+            'admin.exportUserStats',
+            'admin.tasks.index',
+            'admin.tasks.getSubmissions',
+            'admin.user.dashboard',
+            'tasks.create',
+            'tasks.store',
             'admin.logout',
+            
         ];
 
         return in_array($routeName, $adminRoutes);
@@ -79,17 +86,18 @@ class CheckRole
     {
         // Tentukan rute-rute non-admin
         $nonAdminRoutes = [
-            'dashboard',
-            'profile.edit',
-            'profile.update',
-            'profile.destroy',
-            'schedules.user.index',
-            'attendances.store',
-            'leave-requests.index',
-            'leave-requests.create',
-            'leave-requests.store',
-            'leave-requests.destroy',
-            'user.logout',
+            // 'dashboard',
+            // 'profile.edit',
+            // 'profile.update',
+            // 'profile.destroy',
+            // 'schedules.user.index',
+            // 'attendances.store',
+            // 'leave-requests.index',
+            // 'leave-requests.create',
+            // 'leave-requests.store',
+            // 'leave-requests.destroy',
+            // 'tasks.submit',
+            // 'user.logout',
             // Tambahkan rute-rute non-admin lainnya di sini
         ];
 

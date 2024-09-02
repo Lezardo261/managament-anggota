@@ -1,49 +1,51 @@
 <template>
     <Head title="Dashboard" />
-    <AdminLayout class="pt-20">
+    <AdminLayout>
         <template #default>
             <!-- Section List User -->
-            <div class="bg-white p-6 shadow rounded-lg mb-8">
+            <div class="bg-white p-8 shadow-lg rounded-lg mb-12">
                 <div class="flex flex-col lg:flex-row justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold mb-4 lg:mb-0">List User</h1>
+                    <h1 class="text-3xl font-semibold text-gray-700 mb-4 lg:mb-0 flex items-center">
+                        <i class="fas fa-users mr-2"></i>
+                        Daftar Anggota
+                    </h1>
                     <div class="flex items-center w-full lg:w-auto">
                         <input
                             v-model="searchQuery"
                             type="text"
-                            class="border border-gray-300 rounded-l-lg py-2 px-4 w-full lg:w-64 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                            placeholder="Search by Name/Email/Role"
+                            class="border border-gray-300 rounded py-2 px-4 w-full lg:w-64 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            placeholder="Search"
                         />
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 w-full lg:w-auto">
-                            Search
-                        </button>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                <div class="overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="min-w-full bg-white rounded-lg">
                         <thead>
-                            <tr class="bg-blue-500 text-white">
-                                <th class="py-3 px-6 text-left">Name</th>
-                                <th class="py-3 px-6 text-left">Email</th>
-                                <th class="py-3 px-6 text-left">NIS</th>
-                                <th class="py-3 px-6 text-left">Kelas</th>
-                                <th class="py-3 px-6 text-left">Kontak</th>
-                                <th class="py-3 px-6 text-left">Role</th>
-                                <th class="py-3 px-6 text-center">Action</th>
+                            <tr class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                                <th class="sticky top-0 left-0 px-6 py-3 text-left font-semibold text-white bg-blue-600">Nama</th>
+                                <th class="px-6 py-3 text-left font-semibold text-white">Email</th>
+                                <th class="px-6 py-3 text-center font-semibold text-white">NIS</th>
+                                <th class="px-6 py-3 text-center font-semibold text-white">Kelas</th>
+                                <th class="px-6 py-3 text-center font-semibold text-white">Role</th>
+                                <th class="px-6 py-3 text-center font-semibold text-white">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="user in paginatedUsers" :key="user.encrypted_id" class="hover:bg-gray-100">
-                                <td class="py-3 px-6">{{ user.name }}</td>
-                                <td class="py-3 px-6">{{ user.email }}</td>
-                                <td class="py-3 px-6">{{ user.nis }}</td>
-                                <td class="py-3 px-6">{{ user.kelas }}</td>
-                                <td class="py-3 px-6">{{ user.kontak }}</td>
-                                <td class="py-3 px-6">{{ user.role }}</td>
-                                <td class="py-3 px-6 text-center">
-                                    <button @click="editUser(user.encrypted_id)" class="mb-2 ml-2 bg-yellow-400 text-white px-4 py-2 rounded-lg hover:bg-yellow-500">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button @click="deleteUser(user.encrypted_id)" class="bg-red-500 text-white px-4 py-2 rounded-lg ml-2 hover:bg-red-600">
+                            <tr v-for="user in paginatedUsers" :key="user.encrypted_id" class="border-b border-gray-200">
+                                <td class="sticky left-0 bg-white px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ user.name }}</td>
+                                <td class="px-6 py-4 text-gray-700">{{ user.email }}</td>
+                                <td class="px-6 py-4 text-center text-gray-700">{{ user.nis }}</td>
+                                <td class="px-6 py-4 text-center text-gray-700">{{ user.kelas }}</td>
+                                <td class="px-6 py-4 text-center">
+                                    <div class="relative">
+                                        <select v-model="user.role" @change="updateRole(user.encrypted_id, user.role)" class="block w-full px-4 py-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ">
+                                            <option value="admin">Admin</option>
+                                            <option value="user">User</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button @click="deleteUser(user.encrypted_id)" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
@@ -51,43 +53,70 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="flex justify-end mt-4">
-                    <button @click="prevPage" :disabled="currentPage === 1" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-l-lg hover:bg-gray-300">Previous</button>
-                    <button @click="nextPage" :disabled="currentPage >= totalPages" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-r-lg hover:bg-gray-300">Next</button>
+                <div class="flex justify-end items-center mt-6">
+                    <button @click="prevPage" :disabled="currentPage === 1" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition duration-200">
+                        Previous
+                    </button>
+                    <span class="mx-4 text-gray-600 text-sm">Page {{ currentPage }} of {{ totalPages }}</span>
+                    <button @click="nextPage" :disabled="currentPage >= totalPages" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition duration-200">
+                        Next
+                    </button>
                 </div>
             </div>
 
             <!-- Section User Statistics -->
-            <div class="bg-white p-6 shadow rounded-lg">
-                <h1 class="text-2xl font-bold mb-6">User Statistics</h1>
+            <div class="bg-white p-8 shadow-lg rounded-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-3xl font-semibold text-gray-700 flex items-center">
+                        <i class="fas fa-chart-bar mr-2"></i>
+                        Statistik Anggota
+                    </h1>
+                    <button 
+                        @click="exportToExcel"
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-200 shadow flex items-center"
+                    >
+                        <i class="fas fa-file-excel mr-2"></i>
+                        Export
+                    </button>
+                </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                    <table class="min-w-full bg-gray-50 rounded-lg overflow-hidden">
                         <thead>
-                            <tr class="bg-green-500 text-white">
-                                <th class="py-3 px-6 text-left">Name</th>
-                                <th class="py-3 px-6 text-left">Attendances</th>
-                                <th class="py-3 px-6 text-left">Izin</th>
-                                <th class="py-3 px-6 text-left">Sakit</th>
+                            <tr class="bg-green-600 text-white text-sm leading-normal">
+                                <th class="py-3 px-6 text-left font-semibold ">Name</th>
+                                <th class="py-3 px-6 text-center font-semibold ">Kehadiran</th>
+                                <th class="py-3 px-6 text-center font-semibold ">Izin</th>
+                                <th class="py-3 px-6 text-center font-semibold ">Sakit</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="stat in paginatedStats" :key="stat.user.id" class="hover:bg-gray-100">
-                                <td class="py-3 px-6">{{ stat.user.name }}</td>
-                                <td class="py-3 px-6">{{ stat.attendances }}</td>
-                                <td class="py-3 px-6">{{ stat.izin }}</td>
-                                <td class="py-3 px-6">{{ stat.sakit }}</td>
+                        <tbody class="text-gray-600 text-sm font-light">
+                            <tr v-for="stat in paginatedStats" :key="stat.user.id" class="border-b border-gray-200 hover:bg-gray-100 transition duration-150">
+                                <td class="py-4 px-6 text-left whitespace-nowrap">
+                                    <span class="font-medium">{{ stat.user.name }}</span>
+                                </td>
+                                <td class="py-4 px-6 text-center">{{ stat.attendances }}</td>
+                                <td class="py-4 px-6 text-center">{{ stat.izin }}</td>
+                                <td class="py-4 px-6 text-center">{{ stat.sakit }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="flex justify-end mt-4">
-                    <button @click="prevStatPage" :disabled="statPage === 1" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-l-lg hover:bg-gray-300">Previous</button>
-                    <button @click="nextStatPage" :disabled="statPage >= statTotalPages" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-r-lg hover:bg-gray-300">Next</button>
+                <div class="flex justify-end items-center mt-6">
+                    <button @click="prevStatPage" :disabled="statPage === 1" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition duration-200">
+                        Previous
+                    </button>
+                    <span class="mx-4 text-gray-600 text-sm">Page {{ statPage }} of {{ statTotalPages }}</span>
+                    <button @click="nextStatPage" :disabled="statPage >= statTotalPages" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition duration-200">
+                        Next
+                    </button>
                 </div>
             </div>
         </template>
     </AdminLayout>
 </template>
+
+
+
 
 
 <script setup>
@@ -102,6 +131,10 @@ const props = defineProps({
 });
 
 const itemsPerPage = 10;
+
+const updateRole = (encryptedId, newRole) => {
+    router.put(route('admin.user.updateRole', encryptedId), { role: newRole })
+};
 
 // List User Pagination
 const currentPage = ref(1);
@@ -119,15 +152,20 @@ const nextPage = () => {
 const prevPage = () => {
     if (currentPage.value > 1) currentPage.value--;
 };
-
-// User Statistics Pagination
 const statPage = ref(1);
+
+// Fungsi untuk mengurutkan data berdasarkan nama
+const sortedStats = computed(() => {
+    return props.userStats.sort((a, b) => a.user.name.localeCompare(b.user.name));
+});
+
 const paginatedStats = computed(() => {
     const start = (statPage.value - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-    return props.userStats.slice(start, end);
+    return sortedStats.value.slice(start, end);
 });
-const statTotalPages = computed(() => Math.ceil(props.userStats.length / itemsPerPage));
+
+const statTotalPages = computed(() => Math.ceil(sortedStats.value.length / itemsPerPage));
 
 const nextStatPage = () => {
     if (statPage.value < statTotalPages.value) statPage.value++;
@@ -144,13 +182,16 @@ const filteredUsers = computed(() => {
 
     const query = searchQuery.value.toLowerCase();
     return props.users
-        .filter(user =>
+        .filter(user => 
             user.name.toLowerCase().includes(query) ||
             user.email.toLowerCase().includes(query) ||
-            user.role.toLowerCase().includes(query)
+            user.role.toLowerCase().includes(query) ||
+            (user.nis && user.nis.toString().toLowerCase().includes(query)) ||  // Filter by NIS
+            (user.kelas && user.kelas.toLowerCase().includes(query))            // Filter by Kelas
         )
         .sort((a, b) => a.name.localeCompare(b.name));
 });
+
 
 const editUser = (encryptedId) => {
     router.get(`/admin/users/${encryptedId}/edit`);
@@ -161,4 +202,12 @@ const deleteUser = (encryptedId) => {
         router.delete(route('admin.user.destroy', { user: encryptedId }));
     }
 }
+
+function exportToExcel() {
+    window.location.href = route('admin.exportUserStats');
+}
+
 </script>
+<style>
+
+</style>
