@@ -25,7 +25,7 @@ Aplikasi ini dirancang khusus untuk kegiatan ekstrakurikuler (eskul). Saat ini, 
 
 ## Manfaat
 
-Dengan Aplikasi Kehadiran IT-Club, administrasi kehadiran dan manajemen tugas menjadi lebih efisien. Aplikasi ini membantu administrator untuk memantau kehadiran dan status tugas dengan lebih baik, serta memberikan kemudahan kepada pengguna dalam mengelola absensi dan tugas mereka. Ini sangat cocok untuk organisasi yang membutuhkan solusi terintegrasi untuk manajemen kehadiran dan tugas.
+Dengan Aplikasi Kehadiran, administrasi kehadiran dan manajemen tugas menjadi lebih efisien. Aplikasi ini membantu administrator untuk memantau kehadiran dan status tugas dengan lebih baik, serta memberikan kemudahan kepada pengguna dalam mengelola absensi dan tugas mereka. Ini sangat cocok untuk organisasi yang membutuhkan solusi terintegrasi untuk manajemen kehadiran dan tugas.
 
 ## Teknologi
 
