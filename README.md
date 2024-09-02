@@ -40,7 +40,7 @@ Ikuti langkah-langkah berikut untuk menginstal dan menjalankan aplikasi ini di l
 
 1. **Clone Repository**:
     ```bash
-    https://github.com/Lezardo261/managament-anggota.git
+    git clone https://github.com/Lezardo261/managament-anggota.git
     ```
 
 2. **Install Dependencies**:
