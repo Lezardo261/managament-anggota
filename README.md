@@ -40,12 +40,12 @@ Ikuti langkah-langkah berikut untuk menginstal dan menjalankan aplikasi ini di l
 
 1. **Clone Repository**:
     ```bash
-    git clone https://github.com/username/repository.git
+    https://github.com/Lezardo261/managament-anggota.git
     ```
 
 2. **Install Dependencies**:
     ```bash
-    cd repository
+    cd managament-anggota
     composer install
     npm install
     ```
