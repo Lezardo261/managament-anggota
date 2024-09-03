@@ -20,11 +20,8 @@ const userIsAdmin = page.props.auth.user && page.props.auth.user.role === 'admin
             <!-- Header -->
             <div class="text-center py-10">
                 <h1 class="text-4xl font-bold text-black dark:text-white">
-                    Selamat Datang di Aplikasi Absensi
+                    Selamat Datang
                 </h1>
-                <p class="mt-4 text-lg text-black/70 dark:text-white/70">
-                    Kelola kehadiran dan absensi anggota dengan mudah.
-                </p>
             </div>
 
             <!-- Tombol Login dan Register -->

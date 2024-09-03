@@ -13,7 +13,6 @@ class UserStatsExport implements FromCollection, WithHeadings
         $users = User::all()->map(function ($user) {
             return [
                 'Name' => $user->name,
-                'Email' => $user->email,
                 'Attendances' => $user->attendances()->count(),
                 'Izin' => $user->leaveRequests()->where('reason', 'izin')->count(),
                 'Sakit' => $user->leaveRequests()->where('reason', 'sakit')->count(),
@@ -27,7 +26,6 @@ class UserStatsExport implements FromCollection, WithHeadings
     {
         return [
             'Name',
-            'Email',
             'Hadir',
             'Izin',
             'Sakit',

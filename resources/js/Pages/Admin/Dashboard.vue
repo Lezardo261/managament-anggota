@@ -2,6 +2,36 @@
     <Head title="Dashboard" />
     <AdminLayout>
         <template #default>
+            <!-- Admin Overview Section -->
+            <div class="bg-white p-8 shadow-lg rounded-lg mb-12">
+                <h1 class="text-3xl font-semibold text-gray-700 mb-4">Admin Overview</h1>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 bg-green-600 text-white rounded-lg shadow flex items-center">
+                        <i class="fas fa-tasks fa-2x mr-4"></i>
+                        <div>
+                            <h2 class="text-2xl font-semibold">Total Tasks</h2>
+                            <p class="text-lg">{{ totalTasks }}</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-yellow-600 text-white rounded-lg shadow flex items-center">
+                        <i class="fas fa-hourglass-half fa-2x mr-4"></i>
+                        <div>
+                            <h2 class="text-2xl font-semibold">Pending Approvals</h2>
+                            <p class="text-lg">{{ pendingApprovals }}</p>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-blue-600 text-white rounded-lg shadow flex items-center">
+                        <i class="fas fa-calendar-day fa-2x mr-4"></i>
+                        <div>
+                            <h2 class="text-2xl font-semibold">Jadwal Hari Ini</h2>
+                            <p class="text-lg">
+                                {{ hasScheduleToday ? 'Ada jadwal hari ini' : 'Tidak ada jadwal hari ini' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Section List User -->
             <div class="bg-white p-8 shadow-lg rounded-lg mb-12">
                 <div class="flex flex-col lg:flex-row justify-between items-center mb-6">
@@ -128,6 +158,9 @@ const searchQuery = ref('');
 const props = defineProps({
     users: Array,
     userStats: Array,
+    totalTasks: Number,
+    pendingApprovals: Number,
+    hasScheduleToday: Boolean
 });
 
 const itemsPerPage = 10;
@@ -136,7 +169,7 @@ const updateRole = (encryptedId, newRole) => {
     router.put(route('admin.user.updateRole', encryptedId), { role: newRole })
 };
 
-// List User Pagination
+
 const currentPage = ref(1);
 const paginatedUsers = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage;
