@@ -12,15 +12,16 @@ class UserDashboardController extends Controller
 {
     public function index(): Response
     {
-        $tasks = Task::with(['submissions' => function($query) {
-            $query->where('user_id', Auth::id());
-        }])->get();
+        $user = Auth::user();
+        $userEskulIds = $user->eskuls->pluck('id'); // Ambil semua eskul_id yang diikuti user
+        $userId = $user->id; 
         
-        $tasks = $tasks->map(function($task) {
-            $task->is_submitted = $task->submissions->isNotEmpty();
+        $tasks = Task::whereIn('eskul_id', $userEskulIds)->get();
+        $tasks = $tasks->map(function($task) use ($userId) {
+            $task->is_submitted = $task->submissions->where('user_id', $userId)->isNotEmpty(); // Cek berdasarkan user_id
             return $task;
         });
-        
+
         return Inertia::render('Dashboard', [
             'tasks' => $tasks,
         ]);

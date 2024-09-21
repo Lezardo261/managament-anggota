@@ -27,11 +27,8 @@ class UserController extends Controller
     public function update(Request $request, $encryptedId)
     {
         $id = Crypt::decrypt($encryptedId);
-
-        $user = User::findOrFail($id);
-    
+        $user = User::findOrFail($id); 
         $user->update($request->only(['name', 'email', 'role']));
-    
         return redirect()->route('admin.users.edit', Crypt::encrypt($user->id))
             ->with('success', 'User updated successfully');
     }
@@ -48,10 +45,6 @@ class UserController extends Controller
         $user->role = $request->input('role');
         $user->save();
     }
-
-    
-    
-    
     public function destroy( $encryptedId){
         $id = Crypt::decrypt($encryptedId);
         $user = User::findOrFail($id);

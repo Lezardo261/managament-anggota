@@ -20,4 +20,9 @@ class Schedule extends Model
         return $this->hasMany(Attendace::class);
     }
 
+    public function eskul()
+    {
+        return $this->belongsTo(Eskul::class);
+    }
+
 }

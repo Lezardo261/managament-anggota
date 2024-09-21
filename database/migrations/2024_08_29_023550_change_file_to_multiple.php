@@ -15,6 +15,7 @@ return new class extends Migration
             $table->json('file')->nullable()->change();
         });
         
+        
     }
 
     /**

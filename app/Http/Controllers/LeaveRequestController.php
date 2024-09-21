@@ -14,44 +14,50 @@ class LeaveRequestController extends Controller
 {
     public function index(): Response
     {
-        $leaveRequests = LeaveRequest::where('user_id', Auth::id())->get();
-
+        $userId = Auth::id();
+        $userEskulIds = Auth::user()->eskuls->pluck('id');
+    
+        $leaveRequests = LeaveRequest::with('eskuls') // Ensure to load the related `eskuls`
+            ->whereHas('eskuls', function ($query) use ($userEskulIds) {
+                $query->whereIn('eskul_id', $userEskulIds);
+            })
+            ->where('user_id', $userId)
+            ->get();
+    
         return Inertia::render('LeaveRequest/Index', [
             'leaveRequests' => $leaveRequests,
         ]);
     }
-
+    
     public function create(): Response
     {
-        return Inertia::render('LeaveRequest/Create');
+        $userEskuls = Auth::user()->eskuls;
+        
+        return Inertia::render('LeaveRequest/Create', [
+            'eskuls' => $userEskuls,
+        ]);
     }
-
-    public function store(LeaveRequestForm $request): RedirectResponse
+    
+    public function store(Request $request): RedirectResponse
     {
-        $leaveRequest = new LeaveRequest();
-        $leaveRequest->user_id = Auth::id();
-        $leaveRequest->reason = $request->input('reason');
-        $leaveRequest->leave_date = $request->input('leave_date');
-    
-        if ($request->hasFile('attachment')) {
-            $leaveRequest->attachment = $request->file('attachment')->store('attachments', 'public');
+        $validated = $request->validate([
+            'reason' => 'required|string',
+            'leave_date' => 'required|date',
+            'eskul_ids' => 'nullable|array',
+            'eskul_ids.*' => 'exists:eskuls,id',
+            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+        $leaveRequest = LeaveRequest::create([
+            'user_id' => Auth::id(),
+            'reason' => $validated['reason'],
+            'leave_date' => $validated['leave_date'],
+            'attachment' => $request->hasFile('attachment') 
+                            ? $request->file('attachment')->store('attachments', 'public') 
+                            : null,
+        ]);
+        if (!empty($validated['eskul_ids'])) {
+            $leaveRequest->eskuls()->sync($validated['eskul_ids']);
         }
-    
-        $leaveRequest->save();
-    
         return redirect()->route('leave-requests.index')->with('status', 'Leave request submitted.');
-    }
-    public function destroy($id)
-    {
-        $leaveRequest = LeaveRequest::findOrFail($id);
-
-        // Pastikan hanya pengguna yang membuat permintaan bisa menghapusnya
-        if ($leaveRequest->user_id !== Auth::id()) {
-            return redirect()->route('leave-requests.index')->with('error', 'Anda tidak memiliki izin untuk menghapus permintaan ini.');
-        }
-
-        $leaveRequest->delete();
-
-        return redirect()->route('leave-requests.index')->with('success', 'Permintaan berhasil dihapus.');
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <Head title="Izin / Sakit" />
-    <AdminLayout >
+    <AdminLayout>
         <div class="p-6 bg-white rounded-lg shadow-md">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-semibold">Izin/Sakit</h1>
@@ -15,6 +15,7 @@
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b">User</th>
+                            <th class="py-2 px-4 border-b">Eskul</th>
                             <th class="py-2 px-4 border-b">Reason</th>
                             <th class="py-2 px-4 border-b">Leave Date</th>
                             <th class="py-2 px-4 border-b">Attachment</th>
@@ -25,18 +26,23 @@
                     <tbody>
                         <tr v-for="request in filteredRequests" :key="request.id" class="hover:bg-gray-100 text-center">
                             <td class="py-2 px-4 border-b">{{ request.user.name }}</td>
+                            <td class="py-2 px-4 border-b">{{ request.eskuls.map(e => e.name).join(', ') }}</td>
                             <td class="py-2 px-4 border-b">{{ request.reason }}</td>
                             <td class="py-2 px-4 border-b">{{ request.leave_date }}</td>
-                            <td class="py-2 px-4 border-b ">
+                            <td class="py-2 px-4 border-b">
                                 <img v-if="request.attachment" 
                                      :src="`/storage/${request.attachment}`" 
                                      alt="Attachment" 
                                      class="w-24 h-24 object-cover object-center">
                             </td>
-                            <td class="py-2 px-4 border-b">{{ request.status }}</td>
+                            <td class="py-2 px-4 border-b">
+                                <span :class="statusClass(request.status)">
+                                    {{ request.status }}
+                                </span>
+                            </td>
                             <td class="py-2 px-4 border-b">
                                 <div v-if="request.status !== 'Approved'" class="flex space-x-2 justify-center">
-                                    <button @click="approveRequest(request.id)" class=" bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                    <button @click="approveRequest(request.id)" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                                         Approve
                                     </button>
                                     <button @click="rejectRequest(request.id)" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
@@ -59,26 +65,38 @@
 import { ref, computed } from 'vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
+
 const props = defineProps({
     leaveRequests: Array
 });
 
 const selectedDate = ref(new Date().toISOString().substr(0, 10));
 
+// Filter leave requests by the selected date
 const filteredRequests = computed(() => {
     return props.leaveRequests.filter(request => request.leave_date === selectedDate.value);
 });
 
-const approveRequest = (id) => {
-    router.post(`/admin/leave-requests/${id}/approve`);
+// Define dynamic classes for different statuses
+const statusClass = (status) => {
+    return {
+        'bg-green-100 text-green-700 font-semibold px-2 py-1 rounded': status === 'Approved',
+        'bg-yellow-100 text-yellow-700 font-semibold px-2 py-1 rounded': status === 'Pending',
+        'bg-red-100 text-red-700 font-semibold px-2 py-1 rounded': status === 'Rejected',
+    };
 };
 
+// Approve leave request
+const approveRequest = (id) => {
+    router.post(`/admin/leave-requests/${id}/approve`, null, {
+        onSuccess: () => alert('Leave request approved!'),
+    });
+};
+
+// Reject leave request
 const rejectRequest = (id) => {
-    router.post(`/admin/leave-requests/${id}/reject`);
+    router.post(`/admin/leave-requests/${id}/reject`, null, {
+        onSuccess: () => alert('Leave request rejected!'),
+    });
 };
 </script>
-<style scoped>
-input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(100%);
-}
-</style>

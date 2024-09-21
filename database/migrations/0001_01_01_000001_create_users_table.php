@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('password');
             $table->bigInteger('nis')->nullable()->unique();
             $table->string('kelas')->nullable();
-            $table->string('kontak')->nullable();
             $table->string('role')->default('user');
             $table->rememberToken();
             $table->timestamps();

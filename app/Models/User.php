@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -36,6 +37,10 @@ class User extends Authenticatable
     public function taskSubmissions()
     {
         return $this->hasMany(TaskSubmission::class);
+    }
+    public function eskuls(): BelongsToMany
+    {
+        return $this->belongsToMany(Eskul::class, 'user_eskul');
     }
 
     /**

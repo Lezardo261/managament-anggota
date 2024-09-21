@@ -1,125 +1,110 @@
 <template>
     <div class="min-h-screen flex bg-gray-100">
         <!-- Sidebar -->
-        <aside :class="{'-translate-x-full': !isSidebarOpen, 'translate-x-0': isSidebarOpen}" class="fixed bg-gray-900 text-white w-64 space-y-6 py-7 px-4 inset-y-0 left-0 transform lg:transform-none transition duration-300 ease-in-out z-50 shadow-lg">
-            <!-- Enhanced Title -->
-            <div class="text-center mb-10">
-                <div class="text-2xl font-extrabold bg-clip-text ">
-                    <i class="fas fa-code"></i> Dashboard
+        <aside :class="{'-translate-x-full': !isSidebarOpen, 'translate-x-0': isSidebarOpen}"
+               class="fixed bg-gray-800 text-gray-100 w-64 space-y-6 py-7 px-2 inset-y-0 left-0 transform lg:translate-x-0 transition duration-200 ease-in-out z-50 shadow-lg">
+            <!-- Title -->
+            <div class="text-center mb-8">
+                <div class="text-2xl font-bold text-white">
+                    Dashboard
                 </div>
                 <div class="text-sm font-medium text-gray-400 mt-1">
-                    Welcome back, {{ $page.props.auth.user.name }}!
+                    Welcome, {{ $page.props.auth.user.name }}
                 </div>
             </div>
 
             <!-- Navigation -->
-            <nav class="font-medium">
-                <ul class="space-y-4">
+            <nav class="text-sm">
+                <ul class="space-y-2">
                     <li>
-                        <Link href="/user/dashboard" class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-300">
+                        <Link :href="route('dashboard')"
+                              :class="{'bg-gray-900 text-white': route().current('dashboard')}"
+                              class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-150">
                             <i class="fas fa-home mr-3"></i>
-                            Dashboard
+                            <span>Dashboard</span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/user/schedules" class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-300">
+                        <Link :href="route('schedules.user.index')"
+                              :class="{'bg-gray-900 text-white': route().current('schedules.user.index')}"
+                              class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-150">
                             <i class="fas fa-calendar-alt mr-3"></i>
-                            Jadwal
+                            <span>Kehadiran</span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/user/leave-requests" class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-300">
+                        <Link :href="route('leave-requests.index')"
+                              :class="{'bg-gray-900 text-white': route().current('leave-requests.index')}"
+                              class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-150">
                             <i class="fas fa-clipboard-list mr-3"></i>
-                            Pengajuan Izin/Sakit
+                            <span>Pengajuan Izin/Sakit</span>
                         </Link>
                     </li>
                 </ul>
             </nav>
 
-            <!-- User Dropdown Menu -->
-            <div class="pt-4 pb-1 border-t border-gray-700 mt-6">
-                <div class="px-4">
-                    <div class="font-medium text-base text-gray-200">
-                        {{ $page.props.auth.user.name }}
+            <!-- User Profile Link -->
+            <div class="relative px-4 border-t border-gray-700 mt-6 pt-4">
+                <Link :href="route('profile.edit')" class="cursor-pointer flex items-center">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-full" :src="'https://ui-avatars.com/api/?name=' + $page.props.auth.user.name" :alt="$page.props.auth.user.name">
                     </div>
-                    <div class="font-medium text-sm text-gray-400">{{ $page.props.auth.user.email }}</div>
-                </div>
+                    <div class="ml-3">
+                        <div class="text-sm font-medium text-gray-200">{{ $page.props.auth.user.name }}</div>
+                        <div class="text-xs text-gray-400">{{ $page.props.auth.user.email }}</div>
+                    </div>
+                </Link>
+            </div>
 
-                <div class="mt-3 space-y-1">
-                    <Link :href="route('profile.edit')" class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-300">
-                        <i class="fas fa-user-edit mr-3"></i>
-                        Profile
-                    </Link>
-                    <a href="#" @click.prevent="logout" class="flex items-center px-4 py-2 hover:bg-gray-700 rounded-lg transition duration-300">
-                        <i class="fas fa-sign-out-alt mr-3"></i>
-                        Log Out
-                    </a>
-                </div>
+            <!-- Divider -->
+            <div class=" pb-2 px-4 ">
+                <a @click.prevent="logout"
+                   class="block px-4 py-2 text-sm text-red-400 hover:bg-gray-700 rounded-lg transition duration-150 cursor-pointer">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Log Out
+                </a>
             </div>
         </aside>
 
         <!-- Mobile menu button -->
         <div class="lg:hidden fixed top-4 left-4 z-50">
-            <button @click="toggleSidebar" class="text-gray-900 focus:outline-none">
-                <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <button @click="toggleSidebar"
+                    class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                 </svg>
             </button>
         </div>
 
         <!-- Page Content -->
-        <div class="flex-1 pt-16 lg:pt-8 px-4 lg:ml-64 lg:pl-6">
-            <div class="container mx-auto py-4">
+        <div class="flex-1 lg:ml-64">
+            <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <slot></slot>
-            </div>
+            </main>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { router, Link } from '@inertiajs/vue3';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
 
-const isSidebarOpen = ref(false);
+const isSidebarOpen = ref(window.innerWidth >= 1024);
 
 function toggleSidebar() {
     isSidebarOpen.value = !isSidebarOpen.value;
 }
 
+function handleResize() {
+    isSidebarOpen.value = window.innerWidth >= 1024;
+}
 function logout() {
     router.post(route('logout'));
 }
+onMounted(() => {
+    window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+});
 </script>
-
-<style scoped>
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden; /* Mencegah tampilan bergeser ke samping */
-}
-
-html, body {
-    max-width: 100vw; /* Membatasi lebar maksimal pada ukuran layar */
-}
-
-.container {
-    max-width: 100%; /* Membatasi lebar container */
-    padding: 0 1rem; /* Menambahkan padding pada container untuk mobile */
-}
-
-.flex-1 {
-    padding-left: 1rem;
-    max-width: 100%; /* Membatasi lebar konten di dalam flex-1 */
-    overflow-x: hidden; /* Mencegah overflow horizontal */
-}
-
-@media (min-width: 1024px) {
-    aside {
-        width: 16rem;
-    }
-    .flex-1 {
-        padding-left: 1rem;
-    }
-}
-
-</style>

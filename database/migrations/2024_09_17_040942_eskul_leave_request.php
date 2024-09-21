@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('eskul_leave_request', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('leave_request_id')->constrained()->onDelete('cascade');
             $table->foreignId('eskul_id')->constrained()->onDelete('cascade');
-            $table->string('title');
-            $table->text('description');
-            $table->date('date');
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('eskul_leave_request');
     }
 };

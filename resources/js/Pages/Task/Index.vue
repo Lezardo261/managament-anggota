@@ -83,7 +83,6 @@ const selectedSubmission = ref(null);
 const isModalVisible = ref(false);
 const isLoading = ref(false);
 
-// Sort tasks by ID in descending order
 const sortedTasks = computed(() => {
     return [...tasks].sort((a, b) => b.id - a.id);
 });
@@ -116,7 +115,6 @@ const openModal = (submission) => {
 </script>
 
 <style scoped>
-/* Additional styling for the card layout */
 .grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }

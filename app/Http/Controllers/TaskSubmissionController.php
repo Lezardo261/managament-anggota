@@ -26,7 +26,6 @@ class TaskSubmissionController extends Controller
                 $files[] = $path;
             }
         }
-
         TaskSubmission::create([
             'task_id' => $request->task_id,
             'user_id' => Auth::id(),

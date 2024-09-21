@@ -10,7 +10,7 @@
                         <textarea v-model="submissionText" id="answer" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" rows="3"></textarea>
                     </div>
                     <div class="mb-4">
-                        <label for="files" class="block text-sm font-medium text-gray-700">Upload Files</label>
+                        <label for="files" class="block text-sm font-medium text-gray-700">Upload Image</label>
                         <input @change="handleFileUpload" id="files" type="file" multiple class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"/>
                     </div>
                     <div v-if="previewImages.length" class="mb-4">
@@ -43,11 +43,11 @@ const files = ref([]);
 const previewImages = ref([]);
 const taskId = ref(null);
 const isSubmitting = ref(false);
-const taskDescription = ref(''); // Tambahkan ini
+const taskDescription = ref('');
 
 const openPopup = (id, description) => {
     taskId.value = id;
-    taskDescription.value = description; // Set deskripsi tugas
+    taskDescription.value = description;
     visible.value = true;
 };
 
@@ -90,9 +90,8 @@ const submitTask = () => {
 defineExpose({ openPopup });
 </script>
 <style scoped>
-/* Gaya untuk memastikan teks membungkus dengan benar */
 .text-gray-700 {
-    white-space: normal; /* Membungkus teks */
-    word-break: break-word; /* Memastikan kata yang panjang tetap dibungkus */
+    white-space: normal; 
+    word-break: break-word; 
 }
 </style>

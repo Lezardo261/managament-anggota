@@ -24,12 +24,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-// Route::middleware('redirect_if_authenticated')->group(function () {
-//     Route::get('/login', function () {
-//         return view('auth.login');
-//     });
-// });
-
 Route::middleware(['auth', 'checkrole'])->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');

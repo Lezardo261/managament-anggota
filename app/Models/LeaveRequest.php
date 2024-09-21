@@ -15,5 +15,13 @@ class LeaveRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function eskul()
+    {
+        return $this->belongsTo(Eskul::class);
+    } 
+    public function eskuls()
+    {
+        return $this->belongsToMany(Eskul::class, 'eskul_leave_request');
+    }
 
 }

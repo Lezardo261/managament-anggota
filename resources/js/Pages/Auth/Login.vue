@@ -1,28 +1,3 @@
-<script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
-
-defineProps({
-    canResetPassword: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
-
-const form = useForm({
-    email: '',
-    password: '',
-    remember: false,
-});
-
-const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
-    });
-};
-</script>
-
 <template>
     <Head title="Log in" />
 
@@ -32,30 +7,27 @@ const submit = () => {
 
             <form @submit.prevent="submit" class="space-y-5">
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
-                    <input
-                        id="email"
-                        type="email"
-                        v-model="form.email"
-                        required
-                        autofocus
-                        autocomplete="username"
-                        class="mt-2 w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500"
+                    <InputField
+                    id="email"
+                    type="email"
+                    v-model="form.email"
+                    label="Email"
+                    required
+                    :error="form.errors.email"
+                    autocomplete="email"
                     />
-                    <span v-if="form.errors.email" class="text-red-600 text-sm">{{ form.errors.email }}</span>
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        v-model="form.password"
-                        required
-                        autocomplete="current-password"
-                        class="mt-2 w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500"
-                    />
-                    <span v-if="form.errors.password" class="text-red-600 text-sm">{{ form.errors.password }}</span>
+                    <InputField
+                    id="password"
+                    type="password"
+                    v-model="form.password"
+                    label="Password"
+                    required
+                    :error="form.errors.password"
+                    autocomplete="current-password"
+                    />  
                 </div>
 
                 <div class="flex items-center justify-between">
@@ -87,3 +59,28 @@ const submit = () => {
         </div>
     </div>
 </template>
+<script setup>
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import InputField from '../../Components/InputField.vue';
+
+defineProps({
+    canResetPassword: {
+        type: Boolean,
+    },
+    status: {
+        type: String,
+    },
+});
+
+const form = useForm({
+    email: '',
+    password: '',
+    remember: false,
+});
+
+const submit = () => {
+    form.post(route('login'), {
+        onFinish: () => form.reset('password'),
+    });
+};
+</script>

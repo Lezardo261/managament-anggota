@@ -1,20 +1,27 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Inertia\Inertia;
 use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class LeaveRequestAdminController extends Controller
 {
     public function index()
     {
-        // Dapatkan semua permintaan cuti untuk admin
-        $leaveRequests = LeaveRequest::with('user')->get();
-
+        $adminUser = Auth::user();
+        $adminEskulIds = $adminUser->eskuls->pluck('id')->toArray();
+    
+        $leaveRequests = LeaveRequest::with(['user', 'user.eskuls', 'eskuls'])
+            ->whereHas('eskuls', function($query) use ($adminEskulIds) {
+                $query->whereIn('eskul_id', $adminEskulIds);
+            })
+            ->get();
+    
         return Inertia::render('Admin/LeaveRequests', [
-            'leaveRequests' => $leaveRequests
+            'leaveRequests' => $leaveRequests,
         ]);
     }
 

@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use App\Models\Eskul;
+use Inertia\Response;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        $eskuls = Eskul::all();  
+        return Inertia::render('Auth/Register', [
+            'eskuls' => $eskuls, 
+        ]);
     }
-
+    
     /**
      * Handle an incoming registration request.
      *
@@ -32,20 +33,30 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:users,email',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'eskul_id' => 'required|array',
+            'eskul_id.*' => 'exists:eskuls,id',
+            'nis' => 'required|unique:users,nis',
+            'kelas' => 'required|string|max:255',
         ]);
 
+        // Membuat pengguna baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'nis' => $request->nis,
+            'kelas' => $request->kelas,
         ]);
 
-        event(new Registered($user));
+        // Menambahkan relasi many-to-many antara user dan eskul
+        $user->eskuls()->attach($request->eskul_id);
 
+        // Login pengguna
         Auth::login($user);
 
+        // Redirect ke dashboard
         return redirect(route('dashboard', absolute: false));
-    }
+    }    
 }

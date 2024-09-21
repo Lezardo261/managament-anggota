@@ -128,7 +128,6 @@
 
         </nav>
 
-        <!-- Page Content -->
         <div class="pt-16">
             <div class="container mx-auto py-8 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <slot></slot>

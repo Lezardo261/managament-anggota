@@ -15,4 +15,9 @@ class Task extends Model
     {
         return $this->hasMany(TaskSubmission::class);
     }
+    public function eskul()
+    {
+        return $this->belongsTo(Eskul::class);
+    }
+    
 }

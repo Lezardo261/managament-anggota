@@ -2,61 +2,61 @@
   <Head title="Schedules" />
   <AuthenticatedLayout>
     <template #default>
-      <div class="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+      <div class="p-8 min-h-screen flex flex-col items-center">
         <!-- Display message if no schedules are available -->
-        <div v-if="!schedules.length" class="text-center text-gray-600 text-lg font-medium">
-          Tidak ada jadwal
+        <div v-if="!schedules.length" class="text-center text-gray-700 text-xl font-medium">
+          Tidak ada jadwal tersedia
         </div>
 
         <!-- Display schedules if they are available -->
-        <div v-if="schedules.length" class="w-full max-w-3xl mb-8">
+        <div v-if="schedules.length" class="w-full max-w-3xl grid grid-cols-1 gap-6">
           <div
             v-for="schedule in filteredSchedules"
             :key="schedule.id"
-            class="bg-white shadow-md rounded-lg p-6 mb-4 transition-transform transform hover:scale-105"
+            class="bg-white shadow-md rounded-lg p-6 transition-transform duration-200 hover:scale-100"
           >
-            <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{ schedule.title }}</h3>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ schedule.title }}</h3>
             <p class="text-gray-600 mb-4">{{ schedule.start_time }} - {{ schedule.end_time }}</p>
             <button
               v-if="!isAttendanceMarked(schedule.id)"
               @click="selectSchedule(schedule.id)"
-              class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+              class="bg-blue-500 text-white font-medium py-2 px-4 rounded hover:bg-blue-600 transition-colors"
             >
-              Select
+              Pilih Jadwal
             </button>
+            <p v-else class="text-green-600 font-medium mt-2">Absensi sudah dilakukan</p>
           </div>
         </div>
 
+        <!-- Modal for Attendance -->
         <Teleport to="body">
           <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-              <h2 class="text-2xl font-bold mb-4">Take Attendance</h2>
-              <video
-                ref="video"
-                width="640"
-                height="480"
-                autoplay
-                class="border rounded-lg shadow-lg mb-4 w-full"
-              ></video>
-              <button
-                v-if="!isAttendanceMarked(selectedScheduleId)"
-                @click="takePicture"
-                class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition mb-4"
-              >
-                Ambil Foto
-              </button>
-              <canvas ref="canvas" class="w-40 ml-3"></canvas>
-              <button
-                v-if="photoData && !isAttendanceMarked(selectedScheduleId)"
-                @click="submitAttendance"
-                class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition mb-4"
-              >
-                Submit Absensi
-              </button>
-              <p v-if="isAttendanceMarked(selectedScheduleId)" class="text-green-600 font-bold mt-4">
-                Anda telah melakukan absensi.
-              </p>
-              <button @click="closeModal" class="text-red-500 mt-4 ml-3">Close</button>
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+              <h2 class="text-2xl font-semibold text-gray-800 mb-4">Ambil Absensi</h2>
+              <video ref="video" class="w-full h-48 bg-gray-200 rounded-md mb-4" autoplay></video>
+              
+              <div class="flex justify-center mb-4">
+                <button
+                  v-if="!isAttendanceMarked(selectedScheduleId)"
+                  @click="takePicture"
+                  class="bg-green-500 text-white font-medium py-2 px-4 rounded hover:bg-green-600 transition-colors"
+                >
+                  Ambil Foto
+                </button>
+              </div>
+              
+              <canvas ref="canvas" class="hidden"></canvas>
+              
+              <div class="flex justify-between mt-4">
+                <button
+                  v-if="photoData && !isAttendanceMarked(selectedScheduleId)"
+                  @click="submitAttendance"
+                  class="bg-indigo-500 text-white font-medium py-2 px-4 rounded hover:bg-indigo-600 transition-colors"
+                >
+                  Submit Absensi
+                </button>
+                <button @click="closeModal" class="text-red-500 font-medium">Tutup</button>
+              </div>
             </div>
           </div>
         </Teleport>
@@ -85,17 +85,22 @@ const props = defineProps({
 const getTodayDateTime = (time) => {
   const today = new Date()
   const dateStr = today.toISOString().split('T')[0]
-  return new Date(`${dateStr}T${time}`)
+  const result = new Date(`${dateStr}T${time}`)
+  if (time.split(':')[0] < '12') {
+    result.setDate(result.getDate() + 1) // Add a day for times after midnight
+  }
+  return result
 }
-
 const filteredSchedules = computed(() => {
   const now = new Date()
-  return props.schedules
+  const filtered = props.schedules
     .filter(schedule => {
       const endTime = getTodayDateTime(schedule.end_time)
+      
       return endTime > now
     })
     .sort((a, b) => b.id - a.id)
+  return filtered
 })
 
 onMounted(() => {
@@ -136,7 +141,6 @@ const takePicture = () => {
     canvas.value.height = 720;
 
     context.drawImage(video.value, sx, sy, 760, 720, 0, 0, 760, 720)
-    
     photoData.value = canvas.value.toDataURL('image/png')
   } else {
     console.error("Video or canvas is not available")
@@ -151,7 +155,7 @@ const submitAttendance = async () => {
         schedule_id: selectedScheduleId.value
       })
 
-      userAttendances.value.push(selectedScheduleId.value) // Update local userAttendances
+      userAttendances.value.push(selectedScheduleId.value)
       closeModal()
     } catch (error) {
       console.error("Error submitting attendance: ", error)
@@ -163,7 +167,7 @@ const submitAttendance = async () => {
 
 const closeModal = () => {
   isModalOpen.value = false
-  selectedScheduleId.value = null // Reset selected schedule
+  selectedScheduleId.value = null 
 }
 
 const isAttendanceMarked = (scheduleId) => {
@@ -179,7 +183,7 @@ body {
 
 button {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 video {

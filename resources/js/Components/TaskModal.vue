@@ -33,7 +33,7 @@
                                     :class="['carousel-item', { 'hidden': index !== currentSlide }]"
                                     class="relative w-full h-64 flex justify-center items-center transition-opacity duration-500 ease-in-out"
                                 >
-                                    <img :src="getFileUrl(file)" alt="File Preview" class="max-w-full max-h-full rounded-md shadow-md" @click="openImageViewer(getFileUrl(file))" />
+                                    <img :src="getFileUrl(file)" alt="File Preview" class="max-w-full max-h-full rounded-md shadow-md" @click="openImageViewer(getFileUrl(file))" loading="lazy" />
                                 </div>
                             </div>
                             <!-- Left Button -->
