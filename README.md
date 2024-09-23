@@ -90,7 +90,7 @@ Dengan Aplikasi Kehadiran Ekstrakurikuler v2.0, administrasi kehadiran dan manaj
    ```
 
 ## Penggunaan
-Untuk mulai menggunakan aplikasi, buka browser Anda dan akses `http://127.0.0.1:8000`. Anda akan melihat halaman login yang diatur oleh Laravel Breeze. Setelah login, Anda akan diarahkan ke dashboard sesuai dengan peran Anda (admin atau anggota) dan eskul yang Anda ikuti atau kelola.
+Untuk mulai menggunakan aplikasi, buka browser Anda dan akses `http://127.0.0.1:8000`. Anda akan melihat halaman login yang diatur oleh Laravel Breeze. Setelah login, Anda akan diarahkan ke dashboard sesuai dengan peran Anda (admin atau anggota) dan eskul yang Anda ikuti atau kelola, untuk mengatur peran anda bisa mengaturnya melalui Database sekaligus juga untuk menambahkan nama-nama eskulnya bisa anda lakukan didatabase
 
 ## Rencana Pengembangan
 1. **Sistem Kelas Terpisah**:
