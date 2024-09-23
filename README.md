@@ -79,10 +79,9 @@ Dengan Aplikasi Kehadiran Ekstrakurikuler v2.0, administrasi kehadiran dan manaj
    php artisan migrate
    ```
 
-6. **Install Laravel Breeze**:
+6. **symlink storage**:
    ```bash
-   php artisan breeze:install
-   npm install && npm run dev
+    php artisan storage:link
    ```
 
 7. **Start Server**:
@@ -109,6 +108,9 @@ Untuk mulai menggunakan aplikasi, buka browser Anda dan akses `http://127.0.0.1:
      - Informasi ketua eskul
      - Deskripsi dan tujuan eskul
 
+
+![UML](https://github.com/user-attachments/assets/815d6f66-6fee-402a-bcc9-c0d880b11e37)
+![ERD](https://github.com/user-attachments/assets/6ca8148f-f235-48d8-bd18-a27dfb6db81b)
 
 ## Kontribusi
 Jika Anda ingin berkontribusi pada proyek ini, ikuti langkah-langkah berikut:
