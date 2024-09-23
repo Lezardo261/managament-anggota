@@ -107,6 +107,7 @@ const handleFileChange = (e) => {
 };
 
 const submit = () => {
+    console.log(form);
     form.post(route('leave-requests.store'));
 };
 

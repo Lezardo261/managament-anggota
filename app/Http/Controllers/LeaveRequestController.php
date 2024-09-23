@@ -45,7 +45,7 @@ class LeaveRequestController extends Controller
             'leave_date' => 'required|date',
             'eskul_ids' => 'nullable|array',
             'eskul_ids.*' => 'exists:eskuls,id',
-            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
         ]);
         $leaveRequest = LeaveRequest::create([
             'user_id' => Auth::id(),
