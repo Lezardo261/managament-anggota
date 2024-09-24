@@ -108,8 +108,9 @@ Untuk mulai menggunakan aplikasi, buka browser Anda dan akses `http://127.0.0.1:
      - Informasi ketua eskul
      - Deskripsi dan tujuan eskul
 
-
+##Rancangan UML
 ![UML](https://github.com/user-attachments/assets/815d6f66-6fee-402a-bcc9-c0d880b11e37)
+##Rancangan ERD
 ![ERD](https://github.com/user-attachments/assets/6ca8148f-f235-48d8-bd18-a27dfb6db81b)
 
 ## Kontribusi
