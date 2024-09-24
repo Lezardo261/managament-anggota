@@ -11,7 +11,7 @@ Aplikasi Kehadiran Ekstrakurikuler adalah solusi komprehensif untuk manajemen ab
 1. **Dukungan Multi-Eskul**: v2.0 memungkinkan pengelolaan beberapa ekstrakurikuler dalam satu aplikasi.
 2. **Peningkatan Manajemen User**: Penambahan fitur untuk mengatur peran user di berbagai eskul.
 3. **Dashboard Terpadu**: Tampilan dashboard yang lebih komprehensif untuk melihat informasi dari berbagai eskul.
-4. **Laporan Terintegrasi**: Kemampuan untuk menghasilkan laporan yang mencakup data dari beberapa eskul.
+4. **Laporan Terintegrasi**: Kemampuan untuk menghasilkan laporan data eskul.
 5. **Peningkatan Performa**: Optimisasi untuk menangani data dari multiple eskul secara efisien.
 
 ## Fitur
@@ -20,7 +20,7 @@ Aplikasi Kehadiran Ekstrakurikuler adalah solusi komprehensif untuk manajemen ab
 1. **Manajemen User**: 
    - Mengatur daftar pengguna, termasuk penambahan, pengeditan, dan penghapusan user.
    - Mengassign user ke satu atau lebih eskul.
-   - Mengatur peran user dalam setiap eskul (misalnya: admin eskul, anggota).
+   - Mengatur peran user dalam setiap eskul (misalnya: admin, anggota).
 2. **Jadwal Absensi**: Membuat dan mengelola jadwal absensi untuk setiap eskul.
 3. **Pembuatan Tugas**: Membuat dan mengelola tugas untuk penyerahan oleh anggota, termasuk penjadwalan tugas per eskul.
 4. **Monitoring Absensi dan Izin**: 
@@ -31,7 +31,7 @@ Aplikasi Kehadiran Ekstrakurikuler adalah solusi komprehensif untuk manajemen ab
    - Menyediakan fitur ekspor data absensi ke dalam format Excel (.xlsx).
    - Data yang diekspor mencakup: nama anggota, kehadiran, sakit, dan izin.
    - Memungkinkan admin untuk menganalisis data absensi secara lebih mendalam menggunakan fitur-fitur Excel.
-   - Opsi untuk mengekspor data dari satu eskul atau multiple eskul sekaligus.
+   - Opsi untuk mengekspor data dari eskul.
 
 ### Untuk Anggota:
 1. **Penyerahan Tugas**: Menyerahkan tugas sesuai dengan jadwal yang ditetapkan untuk setiap eskul yang diikuti.
@@ -45,7 +45,7 @@ Dengan Aplikasi Kehadiran Ekstrakurikuler v2.0, administrasi kehadiran dan manaj
 
 ## Teknologi
 - **Backend**: Laravel 11
-- **Frontend**: Inertia.js dengan Vue.js
+- **Frontend**: Inertia.js dengan Vue.js, Tailwind CSS
 - **Autentikasi**: Laravel Breeze
 - **Database**: MySQL
 - **Ekspor Data**: Menggunakan library Laravel Excel untuk menghasilkan file Excel
@@ -108,9 +108,9 @@ Untuk mulai menggunakan aplikasi, buka browser Anda dan akses `http://127.0.0.1:
      - Informasi ketua eskul
      - Deskripsi dan tujuan eskul
 
-##Rancangan UML
+## Rancangan UML
 ![UML](https://github.com/user-attachments/assets/815d6f66-6fee-402a-bcc9-c0d880b11e37)
-##Rancangan ERD
+## Rancangan ERD
 ![ERD](https://github.com/user-attachments/assets/6ca8148f-f235-48d8-bd18-a27dfb6db81b)
 
 ## Kontribusi
