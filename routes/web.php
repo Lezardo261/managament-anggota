@@ -53,14 +53,14 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
         Route::prefix('user')->group(function() {
             Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
             Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
             Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.user.index');
             Route::post('/attendance', [AttendController::class, 'store'])->name('attendances.store');
             Route::get('/leave-requests', [LeaveRequestController::class, 'index'])->name('leave-requests.index');
             Route::get('/leave-requests/create', [LeaveRequestController::class, 'create'])->name('leave-requests.create');
             Route::post('/leave-requests', [LeaveRequestController::class, 'store'])->name('leave-requests.store');
-            Route::delete('leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave-requests.destroy'); 
+            Route::delete('/leave-requests/{id}', [LeaveRequestController::class, 'destroy'])->name('leave-requests.destroy'); 
             Route::post('/tasks/submit', [TaskSubmissionController::class, 'store'])->name('tasks.submit');
             Route::post('/logout', [LeaveRequestController::class, 'destroy'])->name('user.logout');
         });

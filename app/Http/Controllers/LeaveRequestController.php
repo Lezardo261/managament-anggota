@@ -60,4 +60,10 @@ class LeaveRequestController extends Controller
         }
         return redirect()->route('leave-requests.index')->with('status', 'Leave request submitted.');
     }
+    public function destroy($id)
+    {
+        $leaveRequest = LeaveRequest::findOrFail($id);
+
+        $leaveRequest->delete();
+    }
 }

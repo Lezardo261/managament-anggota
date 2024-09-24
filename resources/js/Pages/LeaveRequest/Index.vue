@@ -20,45 +20,59 @@
               </Link>
             </div>
 
-            <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative">
-              <table class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative">
+            <!-- Make the table scrollable horizontally on smaller screens -->
+            <div class="overflow-x-auto sm:rounded-lg">
+              <table class="min-w-full table-auto border-collapse bg-white">
                 <thead>
                   <tr class="text-left">
-                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">Tanggal</th>
-                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">Alasan</th>
-                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">Eskul</th>
-                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">Status</th>
-                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white text-center">Lampiran</th>
-                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">Aksi</th>
+                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-2 sm:px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">
+                      Tanggal
+                    </th>
+                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-2 sm:px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">
+                      Alasan
+                    </th>
+                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-2 sm:px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">
+                      Eskul
+                    </th>
+                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-2 sm:px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">
+                      Status
+                    </th>
+                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-2 sm:px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white text-center">
+                      Lampiran
+                    </th>
+                    <th class="bg-blue-600 sticky top-0 border-b border-gray-200 px-2 sm:px-6 py-3 text-gray-600 font-bold tracking-wider uppercase text-xs text-white">
+                      Aksi
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="request in leaveRequests" :key="request.id" class="hover:bg-gray-100 transition-colors duration-200">
-                    <td class="border-dashed border-t border-gray-200 px-6 py-4">{{ request.leave_date }}</td>
-                    <td class="border-dashed border-t border-gray-200 px-6 py-4">{{ request.reason }}</td>
-                    <td class="border-dashed border-t border-gray-200 px-6 py-4">
-                      <span v-for="eskul in request.eskuls" :key="eskul.id" class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2 mb-2">{{ eskul.name }}</span>
+                    <td class="border-dashed border-t border-gray-200 px-2 sm:px-6 py-4">{{ request.leave_date }}</td>
+                    <td class="border-dashed border-t border-gray-200 px-2 sm:px-6 py-4">{{ request.reason }}</td>
+                    <td class="border-dashed border-t border-gray-200 px-2 sm:px-6 py-4">
+                      <span v-for="eskul in request.eskuls" :key="eskul.id" class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2 mb-2">
+                        {{ eskul.name }}
+                      </span>
                     </td>
-                    <td class="border-dashed border-t border-gray-200 px-6 py-4">
+                    <td class="border-dashed border-t border-gray-200 px-2 sm:px-6 py-4">
                       <span :class="statusClass(request.status)" class="py-1 px-3 rounded-full text-xs">
                         {{ request.status }}
                       </span>
                     </td>
-                    <td class="border-dashed border-t border-gray-200 px-6 py-4 flex justify-center items-center text-center">
+                    <td class="border-dashed border-t border-gray-200 px-2 sm:px-6 py-4 flex justify-center items-center text-center">
                       <a v-if="request.attachment" :href="`/storage/${request.attachment}`" target="_blank" class="text-blue-600 hover:text-blue-900 transition duration-200 ease-in-out">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                           <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
                         </svg>
                       </a>
                     </td>
-                    <td class="border-dashed border-t border-gray-200 px-6 py-4">
-                      <DeleteButton 
-                        :deleteRoute="'leave-requests.destroy'"
-                        :routeParams="{ id: request.id }"
-                        confirmMessage="Are you sure you want to delete this leave request?"
-                        @deleted="handleDeleted"
+                    <td class="border-dashed border-t border-gray-200 px-2 sm:px-6 py-4">
+                      <button
+                        @click="deleteLeaveRequest(request.id)"
                         class="text-red-600 hover:text-red-900 transition duration-200 ease-in-out"
-                      />
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -72,9 +86,8 @@
 </template>
 
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue';
-import DeleteButton from '../../Components/DeleteButton.vue';
 
 const props = defineProps({
   leaveRequests: Array
@@ -92,5 +105,9 @@ const statusClass = (status) => {
     default:
       return 'bg-gray-100 text-gray-800';
   }
+};
+
+const deleteLeaveRequest = async (id) => {
+  router.delete(`/user/leave-requests/${id}`);
 };
 </script>

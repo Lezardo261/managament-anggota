@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -21,29 +22,19 @@ class ProfileController extends Controller
             'status' => session('status'),
         ]);
     }
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-
-        $validatedData = $request->validated();
-        Log::info('Validated data', $validatedData);
-
-        $user = $request->user();
-
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->nis = $validatedData['nis'] ?? $user->nis;
-        $user->kelas = $validatedData['kelas'] ?? $user->kelas;
-        $user->kontak = $validatedData['kontak'] ?? $user->kontak;
-
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
-
-        $user->save();
-
-        return redirect()->route('profile.edit')->with('status', 'profile-updated');
+        $user = Auth::user();
     
+        // Gunakan User::update untuk memperbarui data pengguna
+        User::where('id', $user->id)->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'nis' => $request->input('nis'),
+            'kelas' => $request->input('kelas'),
+        ]); 
     }
+    
     public function destroy(Request $request): RedirectResponse
     {
         $request->validate([

@@ -76,8 +76,8 @@
         </div>
 
         <!-- Page Content -->
-        <div class="flex-1 lg:ml-64">
-            <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="flex-1 lg:ml-64 overflow-hidden">
+            <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 overflow-x-hidden">
                 <slot></slot>
             </main>
         </div>
